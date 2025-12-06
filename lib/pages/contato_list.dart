@@ -43,6 +43,25 @@ class _ContatoListState extends State<ContatoList> {
     }
   }
 
+  Future<void> deletarContato(int id) async {
+      final resultado = await servico.deletar(id); 
+
+      if (resultado){
+        if (!mounted) return;
+        ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Contato deletado com sucesso')));
+      await carregarContatos();
+      
+      } else {
+        if (!mounted) return;
+        ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Erro ao excluir')));
+      }
+      
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,9 +77,20 @@ class _ContatoListState extends State<ContatoList> {
                 return ListTile(
                   title: Text(contato.nome),
                   subtitle: Text(contato.telefone),
+                  trailing: IconButton(
+                    onPressed: ()=>deletarContato(contato.id), icon: Icon(Icons.delete)),
                 );
               },
             ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final resultado = await Navigator.pushNamed(context, '/novo');
+          if (resultado == true) {
+            carregarContatos();
+          }
+        },
+        child: const Icon(Icons.add),
+      )
     );
   }
 }

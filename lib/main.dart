@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xanocontato/pages/contato_form.dart';
 import 'package:xanocontato/pages/contato_list.dart';
 void main() {
   runApp(MyApp());
@@ -13,6 +14,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => ContatoList(),
+        '/novo': (context) => ContatoForm(),
       },
     );
   }
